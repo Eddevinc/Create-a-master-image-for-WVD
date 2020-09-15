@@ -159,11 +159,11 @@ The UI form offers the following actions:
 
 5. Now on your virtual machines taskbar search for *Powershell*, and then select **Run as administrator**.
 
-![ws name.](media/e17.png)
+![ws name.](media/e18.png)
 
 6. Use the following command to navigate to "C:\Users\(loginaccount)\Documents\Customizations".
 
-` cd C:\Users\(LoginAccount)\Documents\Customizations\Customizations `
+` cd C:\Users\azuser\Downloads\Customizations\Customizations `
 
 7. Run the following command to allow for script execution.
 
@@ -173,4 +173,116 @@ The UI form offers the following actions:
 
 ` .\Prepare-WVDImage.ps1 -DisplayForm `
 
-9. This will trigger the powershell to launch an application, here select the required applications
+9. This will trigger the powershell to launch an application, here select the applications shown below and click on **Execute**.
+
+![ws name.](media/e19.png)
+
+> **Note:** Make sure that the *FSlogix VHD location* and *AAD Tenant ID* columns are left **blank**.
+
+>**Note:** The script will begin configuring the image. **DO NOT close any of the remaining windows that appear until the script has finished execution**. Doing so will interrupt the process and will require you to start over.
+>
+>The script will take several minutes to complete depending on the options you selected. Additional input from you is not required during this stage.
+
+> **Note:** This script takes some time to run, so be patient as it may seem like nothing is happening for a while, and then applications will begin to install. You can watch the status from within PowerShell. After the Disk Cleanup Wizard closes, you may notice the PowerShell window does not update. It is waiting for the cleanmgr.exe process to close, which can take some time. You can select the PowerShell window and continue to hit the up arrow on your keyboard until you are presented with an active prompt.
+
+10. After the script has completed, select the **Start** icon and note that Microsoft Office, Microsoft Edge Chromium, and Microsoft Teams have been installed.
+
+![ws name.](media/e20.png)
+
+11. Now open file explorer and delete *customizations.zip* file and *Customizations* folder from downloads.
+
+![ws name.](media/e21.png)
+
+12. After erforming the above steps, go to **Start** and **Restart** your virtual machine.
+
+![ws name.](media/e22.png)
+
+13. click on **Continue** and on prompt click on **restart anyway**.
+
+![ws name.](media/e23.png)
+
+![ws name.](media/e24.png)
+
+# **Task 4: Run Sysprep**
+
+1. After the VM has rebooted, reconnect your RDP session and sign in using the same credentials.
+
+- username: azuser
+- password: Azure1234567
+
+2. In taskbar search for *command prompt* and select **Run as administrator**.
+
+![ws name.](media/e25.png)
+
+3. Navigate to "C:\Windows\System32\Sysprep" by running the command below.
+
+` cd C:\Windows\System32\Sysprep `
+
+4. Run the following command to sysprep the VM and shutdown.
+
+` sysprep.exe /oobe /generalize /shutdown `
+
+> **Note:** The system will automatically shut down and disconnect your RDP session.
+
+## **Task 5: Create a managed image from the Master Image VM**
+
+1. In Azure portal search for *virtual machine* and click on it.
+
+![ws name.](media/e26.png)
+
+2. On the Virtual machines blade, locate the VM you used for your master image and Select on the name.
+
+![ws name.](media/e27.png)
+
+3. On the Overview blade for your VM, confirm the Status shows Stopped. Select Stop in the menu bar to move it to a deallocated state.
+
+![ws name.](media/e28.png)
+
+4. Click **OK** on the prompt.
+
+![ws name.](media/e29.png)
+
+5. When virtual machine is *deallocated*, click on **Capture**.
+
+![ws name.](media/e30.png)
+
+6. Enter name of your virtual machine i.e **vmforimage** and click on **Create**.
+
+![ws name.](media/e31.png)
+
+7. After image is created, in search bar of Azure portal search for **images** and select it.
+**
+![ws name.](media/e32.png)
+
+## **Task 6: Provision a Host Pool with a custom image**
+
+1. In azure portal Search for **Windows Virtual Desktop** and select it.
+
+![ws name.](media/e33.png)
+
+2. Under Manage, select Host pools and Select + Add.
+
+![ws name.](media/e34.png)
+
+3. On the **Basics** tab configure your hostpool with following configuration and click on **Next: Virtual Machines>**
+
+![ws name.](media/e35.png)
+
+- Host pool name: **wvd-hostpool*
+- location: *Default location of resource group*
+- Validation Environment: **No**
+- Host pool type: Personal
+- Assignment type: **Automatic**
+
+4. Configure the *Virtual Machine* tab with following configuration.
+
+![ws name.](media/e37.png)
+
+- Add virtual machines: **Yes**
+- Virtual machine size: **standard D2s v3**
+- Number of VMs: **2**
+- Name Prefix: **VmFromImage**
+- Image: click on **Browse all images and disks** and select the Image we created earlier in this exercise.
+
+![ws name.](media/e37.png)
+
