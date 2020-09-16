@@ -274,15 +274,79 @@ The UI form offers the following actions:
 - Host pool type: Personal
 - Assignment type: **Automatic**
 
-4. Configure the *Virtual Machine* tab with following configuration.
+4. In the Virtual machines tab, select **Yes** against **Add virtual machines**. By doing this, we are stepping towards adding Virtual machines to the host pool.
 
-![ws name.](media/e37.png)
+![ws name.](media/66.png)
 
-- Add virtual machines: **Yes**
-- Virtual machine size: **standard D2s v3**
+5. In this step, we will provide the details of the VMs to be created as session Hosts. For your convenience, this step is divided into three sections as follows:
+
+**A.** Session Host Specifications:
+
+- Resource Group: Select **WVD-RG** from the drop down.
+- Virtual machine location: **East US**, location should be same as location of your resource group.
+- Virtual machine size: **Standard D1_v2**. Click on **Change Size**, then select **D1_v2** and click on **Select** as shown below
+
+![ws name.](media/65.png.png)
+
 - Number of VMs: **2**
-- Name Prefix: **VmFromImage**
-- Image: click on **Browse all images and disks** and select the Image we created earlier in this exercise.
+- Name prefix: **VmFromImage**
+- Image type: **Gallery**
+- Image: click on **Browse all images and disks** and select the Image we created earlier in this exercise, as shown below:
 
 ![ws name.](media/e37.png)
+
+- OS disk type: **Standard SSD**
+- Use managed disks: **Leave to default**
+
+![ws name.](media/e36.png)
+
+**B**. Network and Security:
+
+Leave all values to default, except:
+
+- Subnet: **sessionhosts-subnet(10.0.1.0/24)** (choose from dropdown)
+- Specify Domain or Unit: **No**
+
+![ws name.](media/w3.png)
+
+**C**. Administrator Account details:
+
+- AD domain join UPN: Paste your username
+- Password: Paste the password
+- Confirm Password: Paste the password again.
+
+![ws name.](media/w2.png)
+
+7. Click on **Next: Workspace** to proceed.
+
+In the Workspace section, we need to specify if we need to register the default application group to a workspace.
+
+- Register desktop app group: Choose **Yes**
+- To this workspace: Click on **Create new**
+
+![ws name.](media/67.png)
+
+8. In the Workspace section, we need to specify if we need to register the default application group to a workspace.
+
+- Register desktop app group: Choose **Yes**
+- To this workspace: Click on **Create new**
+
+![ws name.](media/67.png)
+
+9. Once you click on Create new, a small window pops up, where you can specify the Workspace name you are going to create.
+
+- Workspace name: **WVD-WS-02**
+- Click on **OK**
+
+![ws name.](media/e38.png)
+
+10. Now click on Review + create on the bottom left corner.
+
+![ws name.](media/e39.png)
+
+11. The last window helps us to verify if the parameters we filled are correct. Wait for validation to pass, then click on Create to initiate the deployment.
+
+![ws name.](media/e40.png)
+
+
 
